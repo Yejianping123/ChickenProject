@@ -4,6 +4,7 @@ using System.Threading;
 namespace ChickenProject
 {
     public delegate void priceCutEvent(Int32 pr);
+
     public class ChickenFarm
     {
         static Random rng = new Random();
@@ -39,6 +40,7 @@ namespace ChickenProject
                 ChickenFarm.changePrice(p);
             }
         }
+    }
 
         public class Retailer
         {
@@ -101,13 +103,52 @@ namespace ChickenProject
                     amount = value;
                 }
             }
+
+        public void toString()
+        {
+            Console.WriteLine("Name: "+senderId+"\nCard: "+cardNo+"\nAmount: "+amount);
         }
+        }
+
+    public class Encoder
+    {
+        public static String Encode(OrderClass orderObject)
+        {
+            String encoded = orderObject.SenderId + "/" + orderObject.CardNo + "/" + orderObject.Amount;
+            Console.WriteLine("Encoded string: " + encoded);
+            return encoded;
+        }
+    }
+
+    public class Decoder
+    {
+        public static OrderClass Decode(String encoded)
+        {
+            var parts = encoded.Split('/');
+            String senderId = parts[0];
+            int cardNo = int.Parse(parts[1]);
+            int amount = int.Parse(parts[2]);
+            OrderClass orderObject = new OrderClass();
+            orderObject.SenderId = senderId;
+            orderObject.CardNo = cardNo;
+            orderObject.Amount = amount;
+            return orderObject;
+        }
+    }
 
         public class myApplication
         {
             static void Main(string[] args)
             {
-                ChickenFarm chicken = new ChickenFarm();
+            OrderClass order = new OrderClass();
+            order.SenderId = "Jesse";
+            order.CardNo = 41234;
+            order.Amount = 10094;
+            order.toString();
+            String encoded = Encoder.Encode(order);
+            OrderClass decodedOrder = Decoder.Decode(encoded);
+            decodedOrder.toString();
+                /*ChickenFarm chicken = new ChickenFarm();
                 Thread farmer = new Thread(new ThreadStart(chicken.farmerFunc));
                 farmer.Start();
                 Retailer chickenstore = new Retailer();
@@ -117,8 +158,7 @@ namespace ChickenProject
                 {
                     retailers[i] = new Thread(new ThreadStart(chickenstore.retailerFunc));
                     retailers[i].Start();
-                }
+                }*/
             }
         }
-    }
 }
