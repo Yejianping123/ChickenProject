@@ -79,7 +79,6 @@ namespace ChickenProject
 
     public class Retailer
     {
-       // public ChickenFarm chicken = new ChickenFarm();
         public double price;
         public bool needorder = false;
         public TimeSpan orderSent;
@@ -218,16 +217,12 @@ orderObject.SenderId, orderObject.Amount, orderObject.CardNo, unitPrice, total);
     {
         int N;
         String[] cells;
-        int loc = 0;
+        int loc;
         public MultiCellBuffer()
         {
             N = 5;
             cells = new String[5];
-            for(int i=0;i<N;i++)
-            {
-                cells[i] = "";
-            }
-            
+            loc = 1;            
         }
         public void setOneCell(String encodedOrder)
         {
